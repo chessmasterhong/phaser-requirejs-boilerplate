@@ -14,5 +14,10 @@
         <div id="canvas"></div>
 
         <script src="scripts/lib/require/require.min.js" data-main="scripts/main"></script>
+        <script>
+            if(!requirejs) {
+                document.write('<script src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.11/require.js" data-main="scripts/main"><\/script>');
+            }
+        </script>
     </body>
 </html>

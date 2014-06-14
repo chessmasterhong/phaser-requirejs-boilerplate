@@ -4,7 +4,10 @@
     requirejs.config({
         baseUrl: 'scripts/',
         paths: {
-            phaser: 'lib/phaser/phaser'
+            phaser: [
+                'lib/phaser/phaser',
+                '//cdnjs.cloudflare.com/ajax/libs/phaser/2.0.4/phaser.min.js'
+            ]
         },
         shim: {
             phaser : {
