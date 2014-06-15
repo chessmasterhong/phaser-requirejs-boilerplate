@@ -1,3 +1,15 @@
-lib/phaser/**
+# Binaries
+media/**
 
-server*
+# Personal
+notes/**
+*.bat
+*.lnk
+*.sh
+
+# Temporary
+.DS_Store
+Thumbs.db
+*.log
+*.temp
+*.tmp
