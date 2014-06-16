@@ -3,7 +3,24 @@
 var gulp = require('gulp'),
     requirejs = require('requirejs');
 
-gulp.task('requirejs', function() {
+gulp.task('requirejs-dev', function() {
+    requirejs.optimize({
+        baseUrl: 'src',
+        out: 'build/game.compiled.dev.js',
+        paths: {
+            almond: '../bower_components/almond/almond'
+        },
+        include: ['almond', 'game'],
+        wrap: {
+            startFile: 'src/_start.js',
+            endFile: 'src/_end.js'
+        },
+        optimize: "none",
+        preserveLicenseComments: false
+    });
+});
+
+gulp.task('requirejs-dist', function() {
     requirejs.optimize({
         baseUrl: 'src',
         out: 'build/game.compiled.js',
@@ -16,7 +33,9 @@ gulp.task('requirejs', function() {
             startFile: 'src/_start.js',
             endFile: 'src/_end.js'
         },
+        optimize: "uglify2"
     });
 });
 
-gulp.task('default', ['requirejs']);
+gulp.task('default', ['requirejs-dev']); // Development build (default)
+gulp.task('distribute', ['requirejs-dist']); // Distribution build
