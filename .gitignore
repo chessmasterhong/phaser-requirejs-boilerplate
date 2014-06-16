@@ -1,11 +1,19 @@
+# npm and Bower
+bower_components/**
+node_modules/**
+
+# Libraries
+src/lib/phaser/**
+
+# Builds
+build/**
+
 # Binaries
 media/**
 
 # Personal
 notes/**
-*.bat
 *.lnk
-*.sh
 
 # Temporary
 .DS_Store
