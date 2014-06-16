@@ -33,31 +33,31 @@ you want).
 
 ```
 ./
-├── bower_components/
-├── build/
-├── docs/
-|   ├── dev/
-|   └── user/
-├── node_modules/
-├── notes/
-|   └── resources.md
-├── site/
-|   ├── scripts/
-|   ├── styles/
-|   ├── index.html
-|   └── index-dev.html
-├── src/
-|   ├── game/
-|   ├── lib/
-|   ├── _end.js
-|   ├── _start.js
-|   └── game.js
-├── bower.json
-├── build-dev.bat
-├── build-dist.bat
-├── gulpfile.js
-├── package.json
-└── README.md
+├── bower_components/  .....  Installed Bower packages
+├── build/  ................  Minified build output files
+├── docs/  .................  Documentations
+│   ├── dev/  ..............  Developer documentations
+│   └── user/  .............  User documentations
+├── node_modules/  .........  Locally installed Node packages
+├── notes/  ................  Project/Personal notes
+│   └── resources.md  ......  Resources and links not worth cluttering the README
+├── site/  .................  Site-specific contents
+│   ├── scripts/  ..........  Site-specific scripts (non-project related)
+│   ├── styles/  ...........  Style sheets
+│   ├── index.html  ........  Main page for loading files from distribution build
+│   └── index-dev.html  ....  Main page for loading files from development build
+├── src/  ..................  Project source code; this is where most of the development occurs
+│   ├── game/  .............  Project-specific code
+│   ├── lib/  ..............  External JavaScript libraries and snippets
+│   ├── _end.js  ...........  Append file contents to build layer
+│   ├── _start.js  .........  Prepend file contents to build layer
+│   └── game.js  ...........  Entry file that pulls all other modules
+├── bower.json  ............  Project metadata (Bower) and project dependencies
+├── build-dev.bat  .........  Script file (Windows) to build project for development
+├── build-dist.bat  ........  Script file (Windows) to build project for distribution
+├── gulpfile.js  ...........  Gulp tasks
+├── package.json  ..........  Project metadata (npm) and build dependencies
+└── README.md  .............  This file?
 ```
 
 
