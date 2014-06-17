@@ -8,7 +8,7 @@ var gulp = require('gulp'),
     requirejs = require('requirejs');
 
 gulp.task('clean-scripts', function() {
-    return gulp.src('build/scripts/*', { read: false })
+    return gulp.src(['build/scripts/**/*', '!build/scripts/{,lib,lib/**/*}'], { read: false })
         .pipe(clean());
 });
 
@@ -52,19 +52,21 @@ gulp.task('lint', function() {
         .pipe(jshint.reporter('default'));
 });
 
-gulp.task('connect', function() {
+gulp.task('serve-dev', function() {
     connect.server({
         host: '127.0.0.1',
         port: 8080,
         livereload: true
     });
-});
-
-gulp.task('serve-dev', ['connect'], function() {
     open('http://127.0.0.1:8080/build/index-dev.html', 'firefox');
 });
 
-gulp.task('serve-dist', ['connect'], function() {
+gulp.task('serve-dist', function() {
+    connect.server({
+        host: '127.0.0.1',
+        port: 8080,
+        livereload: true
+    });
     open('http://127.0.0.1:8080/build/index.html', 'firefox');
 });
 
