@@ -1,8 +1,9 @@
 {
-    "name": "phaser-game",
-    "version": "0.0.1",
-    "devDependencies": {
-        "almond": "~0.2.9",
-        "requirejs": "~2.1.14"
-    }
+  "name": "phaser-game",
+  "version": "0.0.1",
+  "dependencies": {
+    "almond": "~0.2.9",
+    "requirejs": "~2.1.14",
+    "phaser-official": "~2.0.5"
+  }
 }

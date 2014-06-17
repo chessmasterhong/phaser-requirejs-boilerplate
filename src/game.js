@@ -17,7 +17,7 @@ define([
     phaserGame.state.add('MainMenu', mainmenu);
     phaserGame.state.add('Game', game);
 
-    game.state.start('Boot');
+    phaserGame.state.start('Boot');
 
     return phaserGame;
 });

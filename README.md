@@ -48,15 +48,14 @@ you want).
 │   └── index-dev.html  ....  Main page for loading files from development build
 ├── src/  ..................  Project source code; this is where most of the development occurs
 │   ├── game/  .............  Project-specific code
-│   ├── lib/  ..............  External JavaScript libraries and snippets
 │   ├── _end.js  ...........  Append file contents to build layer
 │   ├── _start.js  .........  Prepend file contents to build layer
-│   └── game.js  ...........  Entry file that pulls all other modules
-├── bower.json  ............  Project metadata (Bower) and project dependencies
+│   └── game.js  ...........  Entry file that creates game instance and pulls all other modules
+├── bower.json  ............  Project metadata (Bower) and distribution build dependencies
 ├── build-dev.bat  .........  Script file (Windows) to build project for development
 ├── build-dist.bat  ........  Script file (Windows) to build project for distribution
 ├── gulpfile.js  ...........  Gulp tasks
-├── package.json  ..........  Project metadata (npm) and build dependencies
+├── package.json  ..........  Project metadata (npm) and development build dependencies
 └── README.md  .............  This file?
 ```
 

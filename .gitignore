@@ -3,7 +3,6 @@ bower_components/**
 node_modules/**
 
 # Libraries
-src/lib/phaser/**
 
 # Builds
 build/**

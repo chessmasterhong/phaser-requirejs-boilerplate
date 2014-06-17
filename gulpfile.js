@@ -27,7 +27,7 @@ gulp.task('requirejs-dist', function() {
         out: 'build/game.compiled.js',
         paths: {
             almond: '../bower_components/almond/almond',
-            phaser: 'lib/phaser/phaser.min'
+            phaser: '../bower_components/phaser-official/build/phaser'
         },
         include: ['phaser', 'almond', 'game'],
         wrap: {
