@@ -1,6 +1,7 @@
 'use strict';
 
 var gulp = require('gulp'),
+    jshint = require('gulp-jshint'),
     requirejs = require('requirejs');
 
 gulp.task('requirejs-dev', function() {
@@ -15,7 +16,7 @@ gulp.task('requirejs-dev', function() {
             startFile: 'src/_start.js',
             endFile: 'src/_end.js'
         },
-        optimize: "none",
+        optimize: 'none',
         preserveLicenseComments: false
     });
 });
@@ -33,9 +34,15 @@ gulp.task('requirejs-dist', function() {
             startFile: 'src/_start.js',
             endFile: 'src/_end.js'
         },
-        optimize: "uglify2"
+        optimize: 'uglify2'
     });
 });
 
-gulp.task('default', ['requirejs-dev']); // Development build (default)
-gulp.task('distribute', ['requirejs-dist']); // Distribution build
+gulp.task('lint', function() {
+    gulp.src(['src/game.js', 'src/game/*.js'])
+        .pipe(jshint())
+        .pipe(jshint.reporter('default'));
+});
+
+gulp.task('default', ['lint', 'requirejs-dev']); // Development build (default)
+gulp.task('distribute', ['lint', 'requirejs-dist']); // Distribution build
