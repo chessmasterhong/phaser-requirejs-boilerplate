@@ -10,14 +10,14 @@ define([
     //    return obj;
     //};
 
-    var game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameContainer');
+    var phaserGame = new Phaser.Game(800, 600, Phaser.AUTO, 'gameContainer');
 
-    game.state.add('Boot', boot);
-    game.state.add('Preloader', preloader);
-    game.state.add('MainMenu', mainmenu);
-    game.state.add('Game', game);
+    phaserGame.state.add('Boot', boot);
+    phaserGame.state.add('Preloader', preloader);
+    phaserGame.state.add('MainMenu', mainmenu);
+    phaserGame.state.add('Game', game);
 
     game.state.start('Boot');
 
-    return game;
+    return phaserGame;
 });
