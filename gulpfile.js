@@ -1,6 +1,7 @@
 'use strict';
 
 var gulp = require('gulp'),
+    connect = require('gulp-connect'),
     jshint = require('gulp-jshint'),
     requirejs = require('requirejs');
 
@@ -44,5 +45,19 @@ gulp.task('lint', function() {
         .pipe(jshint.reporter('default'));
 });
 
-gulp.task('default', ['lint', 'requirejs-dev']); // Development build (default)
+gulp.task('webserver', function() {
+    connect.server({
+        root: '',
+        host: '127.0.0.1',
+        port: 8080,
+        livereload: true
+    });
+});
+
+gulp.task('watch', function() {
+    gulp.watch('src/*.js', ['lint', 'requirejs-dev']);
+});
+
+gulp.task('default', ['develop', 'webserver', 'watch']);
+gulp.task('develop', ['lint', 'requirejs-dev']); // Development build
 gulp.task('distribute', ['lint', 'requirejs-dist']); // Distribution build
