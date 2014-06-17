@@ -3,6 +3,7 @@
 var gulp = require('gulp'),
     connect = require('gulp-connect'),
     jshint = require('gulp-jshint'),
+    open = require('opn'),
     requirejs = require('requirejs');
 
 gulp.task('requirejs-dev', function() {
@@ -40,24 +41,26 @@ gulp.task('requirejs-dist', function() {
 });
 
 gulp.task('lint', function() {
-    gulp.src(['src/game.js', 'src/game/*.js'])
+    gulp.src(['src/game.js', 'src/game/**/*.js'])
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
 });
 
-gulp.task('webserver', function() {
+gulp.task('connect', function() {
     connect.server({
-        root: '',
         host: '127.0.0.1',
         port: 8080,
         livereload: true
     });
 });
 
-gulp.task('watch', function() {
-    gulp.watch('src/*.js', ['lint', 'requirejs-dev']);
+gulp.task('serve-dev', ['connect'], function() {
+    open('http://127.0.0.1:8080/site/index-dev.html', 'firefox');
 });
 
-gulp.task('default', ['develop', 'webserver', 'watch']);
-gulp.task('develop', ['lint', 'requirejs-dev']); // Development build
+gulp.task('watch', function() {
+    gulp.watch(['src/game.js', 'src/game/**/*.js'], ['lint', 'requirejs-dev']);
+});
+
+gulp.task('default', ['lint', 'requirejs-dev', 'serve-dev', 'watch']); // Development build
 gulp.task('distribute', ['lint', 'requirejs-dist']); // Distribution build
