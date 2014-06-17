@@ -8,15 +8,15 @@ var gulp = require('gulp'),
 
 gulp.task('requirejs-dev', function() {
     requirejs.optimize({
-        baseUrl: 'src',
-        out: 'build/game.compiled.dev.js',
+        baseUrl: 'src/scripts',
+        out: 'build/scripts/game.compiled.dev.js',
         paths: {
-            almond: '../bower_components/almond/almond'
+            almond: '../../bower_components/almond/almond'
         },
-        include: ['almond', 'game'],
+        include: ['almond', 'game/game'],
         wrap: {
-            startFile: 'src/_start.js',
-            endFile: 'src/_end.js'
+            startFile: 'src/scripts/_start.js',
+            endFile: 'src/scripts/_end.js'
         },
         optimize: 'none',
         preserveLicenseComments: false
@@ -25,23 +25,23 @@ gulp.task('requirejs-dev', function() {
 
 gulp.task('requirejs-dist', function() {
     requirejs.optimize({
-        baseUrl: 'src',
-        out: 'build/game.compiled.js',
+        baseUrl: 'src/scripts',
+        out: 'build/scripts/game.compiled.js',
         paths: {
-            almond: '../bower_components/almond/almond',
-            phaser: '../bower_components/phaser-official/build/phaser'
+            almond: '../../bower_components/almond/almond',
+            phaser: '../../bower_components/phaser-official/build/phaser'
         },
-        include: ['phaser', 'almond', 'game'],
+        include: ['phaser', 'almond', 'game/game'],
         wrap: {
-            startFile: 'src/_start.js',
-            endFile: 'src/_end.js'
+            startFile: 'src/scripts/_start.js',
+            endFile: 'src/scripts/_end.js'
         },
         optimize: 'uglify2'
     });
 });
 
 gulp.task('lint', function() {
-    gulp.src(['src/game.js', 'src/game/**/*.js'])
+    gulp.src(['src/scripts/game/**/*.js'])
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
 });
@@ -55,12 +55,25 @@ gulp.task('connect', function() {
 });
 
 gulp.task('serve-dev', ['connect'], function() {
-    open('http://127.0.0.1:8080/site/index-dev.html', 'firefox');
+    open('http://127.0.0.1:8080/build/index-dev.html', 'firefox');
+});
+
+gulp.task('serve-dist', ['connect'], function() {
+    open('http://127.0.0.1:8080/build/index.html', 'firefox');
 });
 
 gulp.task('watch', function() {
-    gulp.watch(['src/game.js', 'src/game/**/*.js'], ['lint', 'requirejs-dev']);
+    gulp.watch(['src/scripts/game/**/*.js'], ['lint', 'requirejs-dev']);
 });
 
-gulp.task('default', ['lint', 'requirejs-dev', 'serve-dev', 'watch']); // Development build
-gulp.task('distribute', ['lint', 'requirejs-dist']); // Distribution build
+// Development build (default)
+gulp.task('default', ['lint', 'requirejs-dev'], function() {
+    gulp.start('serve-dev');
+    gulp.start('watch');
+});
+
+// Distribution build
+gulp.task('distribute', ['lint', 'requirejs-dist'], function() {
+    gulp.start('serve-dist');
+    gulp.start('watch');
+});
