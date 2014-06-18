@@ -1,20 +1,34 @@
-# npm and Bower
+##### npm and Bower #####
 bower_components/**
 node_modules/**
 
-# Libraries
 
-# Builds
+##### Libraries #####
+src/scripts/lib/**
+
+
+##### Builds #####
 build/**
 
-# Binaries
-media/**
 
-# Personal
+##### Binaries #####
+src/media/**
+
+
+##### Personal #####
 notes/**
-*.lnk
 
-# Temporary
+*.bat
+*.lnk
+*.sh
+
+
+##### Temporary #####
+log/**
+logs/**
+temp/**
+tmp/**
+
 .DS_Store
 Thumbs.db
 *.log
