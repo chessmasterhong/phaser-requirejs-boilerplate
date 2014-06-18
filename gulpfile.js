@@ -37,7 +37,13 @@ gulp.task('requirejs-dev', ['lint-scripts', 'clean-scripts'], function() {
             endFile: 'src/scripts/_end.js'
         },
         optimize: 'none',
-        preserveLicenseComments: false
+        preserveLicenseComments: false,
+        logLevel: 4
+    }, function() {
+        return 0;
+    }, function(err) {
+        console.log(err);
+        return 1;
     });
 });
 
@@ -54,7 +60,13 @@ gulp.task('requirejs-dist', ['lint-scripts', 'clean-scripts'], function() {
             startFile: 'src/scripts/_start.js',
             endFile: 'src/scripts/_end.js'
         },
-        optimize: 'uglify2'
+        optimize: 'uglify2',
+        logLevel: 4
+    }, function() {
+        return 0;
+    }, function(err) {
+        console.log(err);
+        return 1;
     });
 });
 
