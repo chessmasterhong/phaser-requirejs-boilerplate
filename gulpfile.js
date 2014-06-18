@@ -1,9 +1,13 @@
 'use strict';
 
+var BROWSER = 'firefox',
+    PORT = 8080;
+
 var gulp = require('gulp'),
     clean = require('gulp-clean'),
     connect = require('gulp-connect'),
     jshint = require('gulp-jshint'),
+    livereload = require('gulp-livereload'),
     open = require('opn'),
     requirejs = require('requirejs');
 
@@ -55,23 +59,23 @@ gulp.task('lint', function() {
 gulp.task('serve-dev', function() {
     connect.server({
         host: '127.0.0.1',
-        port: 8080,
-        livereload: true
+        port: PORT
     });
-    open('http://127.0.0.1:8080/build/index-dev.html', 'firefox');
+    open('http://127.0.0.1:' + PORT + '/build/index-dev.html', BROWSER);
 });
 
 gulp.task('serve-dist', function() {
     connect.server({
         host: '127.0.0.1',
-        port: 8080,
-        livereload: true
+        port: PORT
     });
-    open('http://127.0.0.1:8080/build/index.html', 'firefox');
+    open('http://127.0.0.1:' + PORT + '/build/index.html', BROWSER);
 });
 
 gulp.task('watch', function() {
-    gulp.watch(['src/scripts/game/**/*.js'], ['requirejs-dev']);
+    livereload.listen();
+    gulp.watch('src/scripts/**/*.js', ['requirejs-dev'])
+        .on('change', livereload.changed);
 });
 
 // Development build (default)
