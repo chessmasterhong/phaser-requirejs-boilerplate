@@ -16,6 +16,12 @@ gulp.task('clean-scripts', function() {
         .pipe(clean());
 });
 
+gulp.task('lint', function() {
+    gulp.src(['src/scripts/game/**/*.js'])
+        .pipe(jshint('.jshintrc'))
+        .pipe(jshint.reporter('default'));
+});
+
 gulp.task('requirejs-dev', ['lint'], function() {
     requirejs.optimize({
         baseUrl: 'src/scripts',
@@ -50,27 +56,19 @@ gulp.task('requirejs-dist', ['lint'], function() {
     });
 });
 
-gulp.task('lint', function() {
-    gulp.src(['src/scripts/game/**/*.js'])
-        .pipe(jshint('.jshintrc'))
-        .pipe(jshint.reporter('default'));
-});
-
-gulp.task('serve-dev', function() {
+gulp.task('connect', function() {
     connect.server({
         root: 'build',
         host: '127.0.0.1',
         port: PORT
     });
+})
+
+gulp.task('serve-dev', ['connect'], function() {
     open('http://127.0.0.1:' + PORT + '/index-dev.html', BROWSER);
 });
 
-gulp.task('serve-dist', function() {
-    connect.server({
-        root: 'build',
-        host: '127.0.0.1',
-        port: PORT
-    });
+gulp.task('serve-dist', ['connect'], function() {
     open('http://127.0.0.1:' + PORT + '/index.html', BROWSER);
 });
 
