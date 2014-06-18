@@ -12,7 +12,7 @@ var gulp = require('gulp'),
     requirejs = require('requirejs');
 
 gulp.task('clean-scripts', function() {
-    return gulp.src(['build/scripts/**/*', '!build/scripts/{,lib,lib/**/*}'], { read: false })
+    gulp.src(['build/scripts/**/*', '!build/scripts/{,lib,lib/**/*}'], { read: false })
         .pipe(clean());
 });
 
@@ -51,29 +51,33 @@ gulp.task('requirejs-dist', ['lint'], function() {
 });
 
 gulp.task('lint', function() {
-    return gulp.src(['src/scripts/game/**/*.js'])
+    gulp.src(['src/scripts/game/**/*.js'])
         .pipe(jshint('.jshintrc'))
         .pipe(jshint.reporter('default'));
 });
 
 gulp.task('serve-dev', function() {
     connect.server({
+        root: 'build',
         host: '127.0.0.1',
         port: PORT
     });
-    open('http://127.0.0.1:' + PORT + '/build/index-dev.html', BROWSER);
+    open('http://127.0.0.1:' + PORT + '/index-dev.html', BROWSER);
 });
 
 gulp.task('serve-dist', function() {
     connect.server({
+        root: 'build',
         host: '127.0.0.1',
         port: PORT
     });
-    open('http://127.0.0.1:' + PORT + '/build/index.html', BROWSER);
+    open('http://127.0.0.1:' + PORT + '/index.html', BROWSER);
 });
 
 gulp.task('watch', function() {
     livereload.listen();
+    gulp.watch('build/**/*')
+        .on('change', livereload.changed);
     gulp.watch('src/scripts/**/*.js', ['requirejs-dev'])
         .on('change', livereload.changed);
 });
