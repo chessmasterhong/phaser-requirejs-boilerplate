@@ -11,18 +11,20 @@ var gulp = require('gulp'),
     open = require('opn'),
     requirejs = require('requirejs');
 
+
+/** Script Tasks **/
 gulp.task('clean-scripts', function() {
-    gulp.src(['build/scripts/**/*', '!build/scripts/{,lib,lib/**/*}'], { read: false })
+    return gulp.src(['build/scripts/**/*', '!build/scripts/{,lib,lib/**/*}'], { read: false })
         .pipe(clean());
 });
 
-gulp.task('lint', function() {
-    gulp.src(['src/scripts/game/**/*.js'])
+gulp.task('lint-scripts', function() {
+    return gulp.src('src/scripts/game/**/*.js')
         .pipe(jshint('.jshintrc'))
         .pipe(jshint.reporter('default'));
 });
 
-gulp.task('requirejs-dev', ['lint'], function() {
+gulp.task('requirejs-dev', ['lint-scripts', 'clean-scripts'], function() {
     requirejs.optimize({
         baseUrl: 'src/scripts',
         out: 'build/scripts/game.compiled.dev.js',
@@ -39,7 +41,7 @@ gulp.task('requirejs-dev', ['lint'], function() {
     });
 });
 
-gulp.task('requirejs-dist', ['lint'], function() {
+gulp.task('requirejs-dist', ['lint-scripts', 'clean-scripts'], function() {
     requirejs.optimize({
         baseUrl: 'src/scripts',
         out: 'build/scripts/game.compiled.js',
@@ -56,13 +58,26 @@ gulp.task('requirejs-dist', ['lint'], function() {
     });
 });
 
+/** HTML Tasks **/
+gulp.task('html', function() {
+    return gulp.src('src/*.html')
+        .pipe(gulp.dest('build'));
+});
+
+/** Style Tasks **/
+gulp.task('styles', function() {
+    return gulp.src('src/styles/**/*.css')
+        .pipe(gulp.dest('build/styles'));
+});
+
+/** Serve Tasks **/
 gulp.task('connect', function() {
-    connect.server({
+    return connect.server({
         root: 'build',
         host: '127.0.0.1',
         port: PORT
     });
-})
+});
 
 gulp.task('serve-dev', ['connect'], function() {
     open('http://127.0.0.1:' + PORT + '/index-dev.html', BROWSER);
@@ -72,22 +87,28 @@ gulp.task('serve-dist', ['connect'], function() {
     open('http://127.0.0.1:' + PORT + '/index.html', BROWSER);
 });
 
+/** Maintenance Tasks **/
 gulp.task('watch', function() {
     livereload.listen();
     gulp.watch('build/**/*')
+        .on('change', livereload.changed);
+    gulp.watch('src/*.html', ['html'])
+        .on('change', livereload.changed);
+    gulp.watch('src/**/*.css', ['styles'])
         .on('change', livereload.changed);
     gulp.watch('src/scripts/**/*.js', ['requirejs-dev'])
         .on('change', livereload.changed);
 });
 
+/** Task Bundles **/
 // Development build (default)
-gulp.task('default', ['clean-scripts', 'requirejs-dev'], function() {
+gulp.task('default', ['requirejs-dev', 'html'], function() {
     gulp.start('serve-dev');
     gulp.start('watch');
 });
 
 // Distribution build
-gulp.task('distribute', ['clean-scripts', 'requirejs-dist'], function() {
+gulp.task('distribute', ['requirejs-dist', 'html', 'styles'], function() {
     gulp.start('serve-dist');
     gulp.start('watch');
 });
