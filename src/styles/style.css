@@ -1,0 +1,10 @@
+html, body {
+    background-color: #1A1A1A;
+    color: #FFFFFF;
+}
+
+#gameContainer {
+    border: 1px solid #2F2F2F;
+    margin: 40px auto 20px;
+    width: 800px;
+}

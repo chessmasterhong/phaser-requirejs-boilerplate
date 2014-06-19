@@ -9,4 +9,4 @@
         // Browser global
         window.Game = factory();
     }
-} (this, function() {
+}(this, function() {

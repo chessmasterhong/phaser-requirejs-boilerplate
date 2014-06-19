@@ -1,67 +1,47 @@
 'use strict';
 
-var BROWSER = 'firefox',
+var //BROWSER = 'firefox',
     PORT = 8080;
+
+var PATHS = {
+    styles: './src/styles/**/*.css',
+    scripts: './src/scripts/**/*.js',
+    build: './build/'
+};
 
 var gulp = require('gulp'),
     clean = require('gulp-clean'),
     connect = require('gulp-connect'),
     jshint = require('gulp-jshint'),
-    livereload = require('gulp-livereload'),
-    open = require('opn'),
+    prochtml = require('gulp-processhtml'),
     requirejs = require('requirejs');
 
-
-/** Script Tasks **/
-gulp.task('clean-scripts', function() {
-    return gulp.src(['build/scripts/**/*', '!build/scripts/{,lib,lib/**/*}'], { read: false })
-        .pipe(clean());
+gulp.task('clean', function() {
+    return gulp.src(PATHS.build, { read: false })
+        .pipe(clean({ force: true }));
 });
 
-gulp.task('lint-scripts', function() {
-    return gulp.src('src/scripts/game/**/*.js')
+gulp.task('lint', function() {
+    return gulp.src([PATHS.scripts, '!./src/scripts/{,bower_components,bower_components/**/*}'])
         .pipe(jshint('.jshintrc'))
         .pipe(jshint.reporter('default'));
 });
 
-gulp.task('requirejs-dev', ['lint-scripts', 'clean-scripts'], function() {
+gulp.task('requirejs', ['lint'], function() {
     requirejs.optimize({
-        baseUrl: 'src/scripts',
-        out: 'build/scripts/game.compiled.dev.js',
+        baseUrl: './src/scripts/',
+        out: PATHS.build + 'scripts/game.compiled.js',
         paths: {
-            almond: '../../bower_components/almond/almond'
-        },
-        include: ['almond', 'game/game'],
-        wrap: {
-            startFile: 'src/scripts/_start.js',
-            endFile: 'src/scripts/_end.js'
-        },
-        optimize: 'none',
-        preserveLicenseComments: false,
-        logLevel: 4
-    }, function() {
-        return 0;
-    }, function(err) {
-        console.log(err);
-        return 1;
-    });
-});
-
-gulp.task('requirejs-dist', ['lint-scripts', 'clean-scripts'], function() {
-    requirejs.optimize({
-        baseUrl: 'src/scripts',
-        out: 'build/scripts/game.compiled.js',
-        paths: {
-            almond: '../../bower_components/almond/almond',
-            phaser: '../../bower_components/phaser-official/build/phaser'
+            almond: 'bower_components/almond/almond',
+            phaser: 'bower_components/phaser-official/build/phaser'
         },
         include: ['phaser', 'almond', 'game/game'],
         wrap: {
-            startFile: 'src/scripts/_start.js',
-            endFile: 'src/scripts/_end.js'
+            startFile: './tasks/_start.js',
+            endFile: './tasks/_end.js'
         },
-        optimize: 'uglify2',
-        logLevel: 4
+        optimize: 'none',
+        preserveLicenseComments: false
     }, function() {
         return 0;
     }, function(err) {
@@ -70,57 +50,31 @@ gulp.task('requirejs-dist', ['lint-scripts', 'clean-scripts'], function() {
     });
 });
 
-/** HTML Tasks **/
 gulp.task('html', function() {
-    return gulp.src('src/*.html')
-        .pipe(gulp.dest('build'));
+    gulp.src('./src/index.html')
+        .pipe(prochtml('index.html'))
+        .pipe(gulp.dest(PATHS.build));
 });
 
-/** Style Tasks **/
-gulp.task('styles', function() {
-    return gulp.src('src/styles/**/*.css')
-        .pipe(gulp.dest('build/styles'));
-});
-
-/** Serve Tasks **/
 gulp.task('connect', function() {
-    return connect.server({
-        root: 'build',
+    connect.server({
+        root: './src/',
         host: '127.0.0.1',
-        port: PORT
+        port: PORT,
+        livereload: true
     });
 });
 
-gulp.task('serve-dev', ['connect'], function() {
-    open('http://127.0.0.1:' + PORT + '/index-dev.html', BROWSER);
-});
-
-gulp.task('serve-dist', ['connect'], function() {
-    open('http://127.0.0.1:' + PORT + '/index.html', BROWSER);
-});
-
-/** Maintenance Tasks **/
 gulp.task('watch', function() {
-    livereload.listen();
-    gulp.watch('build/**/*')
-        .on('change', livereload.changed);
-    gulp.watch('src/*.html', ['html'])
-        .on('change', livereload.changed);
-    gulp.watch('src/**/*.css', ['styles'])
-        .on('change', livereload.changed);
-    gulp.watch('src/scripts/**/*.js', ['requirejs-dev'])
-        .on('change', livereload.changed);
+    gulp.watch('./src/index.html');
+    gulp.watch(PATHS.styles);
+    gulp.watch(PATHS.scripts, ['lint']);
+
+    gulp.watch(['./src/index.html', PATHS.styles, PATHS.scripts], function() {
+        gulp.src('./src/index.html')
+            .pipe(connect.reload());
+    });
 });
 
-/** Task Bundles **/
-// Development build (default)
-gulp.task('default', ['requirejs-dev', 'html'], function() {
-    gulp.start('serve-dev');
-    gulp.start('watch');
-});
-
-// Distribution build
-gulp.task('distribute', ['requirejs-dist', 'html', 'styles'], function() {
-    gulp.start('serve-dist');
-    gulp.start('watch');
-});
+gulp.task('default', ['connect', 'watch']);
+gulp.task('build', ['clean', 'requirejs', 'html']);
