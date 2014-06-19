@@ -30,7 +30,7 @@ gulp.task('lint', function() {
 gulp.task('requirejs', ['lint'], function() {
     requirejs.optimize({
         baseUrl: './src/scripts/',
-        out: PATHS.build + 'scripts/game.compiled.js',
+        out: PATHS.build + 'scripts/game.js',
         paths: {
             almond: 'bower_components/almond/almond',
             phaser: 'bower_components/phaser-official/build/phaser'
@@ -40,7 +40,7 @@ gulp.task('requirejs', ['lint'], function() {
             startFile: './tasks/_start.js',
             endFile: './tasks/_end.js'
         },
-        optimize: 'none',
+        optimize: 'uglify2',
         preserveLicenseComments: false
     }, function() {
         return 0;
@@ -51,9 +51,14 @@ gulp.task('requirejs', ['lint'], function() {
 });
 
 gulp.task('html', function() {
-    gulp.src('./src/index.html')
+    return gulp.src('./src/index.html')
         .pipe(prochtml('index.html'))
         .pipe(gulp.dest(PATHS.build));
+});
+
+gulp.task('styles', function() {
+    return gulp.src(PATHS.styles)
+        .pipe(gulp.dest(PATHS.build + 'styles/'));
 });
 
 gulp.task('connect', function() {
@@ -77,4 +82,4 @@ gulp.task('watch', function() {
 });
 
 gulp.task('default', ['connect', 'watch']);
-gulp.task('build', ['clean', 'requirejs', 'html']);
+gulp.task('build', ['requirejs', 'html', 'styles']);
