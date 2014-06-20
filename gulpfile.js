@@ -1,36 +1,34 @@
 'use strict';
 
-var //BROWSER = 'firefox',
-    PORT = 8080;
-
-var PATHS = {
-    styles: './src/styles/**/*.css',
-    scripts: './src/scripts/**/*.js',
-    build: './build/'
-};
+var PORT = 8080,
+    PATHS = {
+        source: './src/',
+        build: './build/',
+        styles: 'styles/',
+        scripts: 'scripts/'
+    };
 
 var gulp = require('gulp'),
-    clean = require('gulp-clean'),
     connect = require('gulp-connect'),
     jshint = require('gulp-jshint'),
     prochtml = require('gulp-processhtml'),
-    requirejs = require('requirejs');
+    requirejs = require('requirejs'),
+    rimraf = require('rimraf');
 
-gulp.task('clean', function() {
-    return gulp.src(PATHS.build, { read: false })
-        .pipe(clean({ force: true }));
+gulp.task('clean', function(cb) {
+    rimraf(PATHS.build, cb);
 });
 
 gulp.task('lint', function() {
-    return gulp.src([PATHS.scripts, '!./src/scripts/{,bower_components,bower_components/**/*}'])
+    return gulp.src([PATHS.source + PATHS.scripts + '**/*.js', '!' + PATHS.source + PATHS.scripts + '{,bower_components,bower_components/**/*}'])
         .pipe(jshint('.jshintrc'))
         .pipe(jshint.reporter('default'));
 });
 
 gulp.task('requirejs', ['lint'], function() {
     requirejs.optimize({
-        baseUrl: './src/scripts/',
-        out: PATHS.build + 'scripts/game.js',
+        baseUrl: PATHS.source + PATHS.scripts,
+        out: PATHS.build + PATHS.scripts + 'game.min.js',
         paths: {
             almond: 'bower_components/almond/almond',
             phaser: 'bower_components/phaser-official/build/phaser'
@@ -51,19 +49,19 @@ gulp.task('requirejs', ['lint'], function() {
 });
 
 gulp.task('html', function() {
-    return gulp.src('./src/index.html')
+    return gulp.src(PATHS.source + 'index.html')
         .pipe(prochtml('index.html'))
         .pipe(gulp.dest(PATHS.build));
 });
 
 gulp.task('styles', function() {
-    return gulp.src(PATHS.styles)
-        .pipe(gulp.dest(PATHS.build + 'styles/'));
+    return gulp.src(PATHS.source + PATHS.styles + '**/*.css')
+        .pipe(gulp.dest(PATHS.build + PATHS.styles));
 });
 
 gulp.task('connect', function() {
     connect.server({
-        root: './src/',
+        root: PATH.source,
         host: '127.0.0.1',
         port: PORT,
         livereload: true
@@ -71,15 +69,16 @@ gulp.task('connect', function() {
 });
 
 gulp.task('watch', function() {
-    gulp.watch('./src/index.html');
-    gulp.watch(PATHS.styles);
-    gulp.watch(PATHS.scripts, ['lint']);
-
-    gulp.watch(['./src/index.html', PATHS.styles, PATHS.scripts], function() {
-        gulp.src('./src/index.html')
+    gulp.watch(PATHS.source + 'index.html');
+    gulp.watch(PATHS.source + PATHS.styles);
+    gulp.watch(PATHS.source + PATHS.scripts, ['lint']);
+    gulp.watch([PATHS.source + 'index.html', PATHS.source + PATHS.styles, PATHS.source + PATHS.scripts], function() {
+        gulp.src(PATHS.source + 'index.html')
             .pipe(connect.reload());
     });
 });
 
 gulp.task('default', ['connect', 'watch']);
-gulp.task('build', ['requirejs', 'html', 'styles']);
+gulp.task('build', ['clean'], function() {
+    gulp.start('requirejs', 'html', 'styles');
+});
