@@ -1,5 +1,5 @@
 ##### npm and Bower #####
-bower_components/**
+src/scripts/bower_components/**
 node_modules/**
 
 

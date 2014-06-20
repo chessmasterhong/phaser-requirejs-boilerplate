@@ -11,9 +11,12 @@
     <body>
         <div id="gameContainer"></div>
 
-        <!--build:[src] scripts/game.compiled.js-->
+        <!-- build:[src] scripts/game.min.js -->
         <script src="scripts/bower_components/requirejs/require.js" data-main="scripts/main"></script>
+        <!-- /build -->
+
+        <!-- build:remove -->
         <script src="scripts/bower_components/phaser-official/build/phaser.js"></script>
-        <!--/build-->
+        <!-- /build -->
     </body>
 </html>

@@ -6,10 +6,6 @@ define([
 ], function(boot, preloader, mainmenu, game) {
     'use strict';
 
-    //var game = function(obj) {
-    //    return obj;
-    //};
-
     var phaserGame = new Phaser.Game(800, 600, Phaser.AUTO, 'gameContainer');
 
     phaserGame.state.add('Boot', boot);
