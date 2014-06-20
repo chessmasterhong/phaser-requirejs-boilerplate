@@ -31,7 +31,7 @@ gulp.task('requirejs', ['lint'], function() {
         out: PATHS.build + PATHS.scripts + 'game.min.js',
         paths: {
             almond: 'bower_components/almond/almond',
-            phaser: 'bower_components/phaser-official/build/phaser'
+            phaser: 'bower_components/phaser/index'
         },
         include: ['phaser', 'almond', 'game/game'],
         wrap: {
@@ -61,7 +61,7 @@ gulp.task('styles', function() {
 
 gulp.task('connect', function() {
     connect.server({
-        root: PATH.source,
+        root: PATHS.source,
         host: '127.0.0.1',
         port: PORT,
         livereload: true
