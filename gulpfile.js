@@ -25,7 +25,7 @@ gulp.task('lint', function() {
         .pipe(jshint.reporter('default'));
 });
 
-gulp.task('requirejs', ['lint'], function() {
+gulp.task('requirejs', ['clean', 'lint'], function() {
     requirejs.optimize({
         baseUrl: PATHS.source + PATHS.scripts,
         out: PATHS.build + PATHS.scripts + 'game.min.js',
@@ -70,9 +70,9 @@ gulp.task('connect', function() {
 
 gulp.task('watch', function() {
     gulp.watch(PATHS.source + 'index.html');
-    gulp.watch(PATHS.source + PATHS.styles);
-    gulp.watch(PATHS.source + PATHS.scripts, ['lint']);
-    gulp.watch([PATHS.source + 'index.html', PATHS.source + PATHS.styles, PATHS.source + PATHS.scripts], function() {
+    gulp.watch(PATHS.source + PATHS.styles + '**/*.css');
+    gulp.watch(PATHS.source + PATHS.scripts + '**/*.js', ['lint']);
+    gulp.watch([PATHS.source + 'index.html', PATHS.source + PATHS.styles + '**/*.css', PATHS.source + PATHS.scripts + '**/*.js'], function() {
         gulp.src(PATHS.source + 'index.html')
             .pipe(connect.reload());
     });
