@@ -12,28 +12,40 @@ A boilerplate and build system for [Phaser](http://phaser.io).
 
 ### Setup environment
 
-Clone the repository and navigate to the newly cloned repository root directory.
+1. Clone/Download the repository.
+
+2. Navigate into your local copy of the repository's root directory.
 
 ```
-git clone _____
 cd phaser-requirejs-boilerplate
 ```
 
-In the same directory, install the project dependencies.
+3. Install the project dependencies.
 
 ```
 npm install && node node_modules/bower/bin/bower install
 ```
 
+4. Done!
+
 
 ## Usage
 
+### Development
+
 Project development takes place in the `src/` directory. Run `build-dev.bat` to
-run the project from source.
+start a web server, serve the contents in the `src/` directory. Any
+modifications within the directory will refresh any browsers currently viewing
+the web page.
+
+### Build / Distribution
 
 Building the project from source creates a new `build/` directory where the
 output files are placed. This directory will be recreated for each new build, so
-don't put anything you care about in there.
+don't put anything you care about in there. Run `build-dist.bat` to build the
+project from source. If the build seems to freeze during the `scripts` task, do
+not interrupt it; it is still performing its operations. Only do so when you see
+`End of build.` printed.
 
 
 ## Project directory structure
