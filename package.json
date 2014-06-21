@@ -1,15 +1,14 @@
 {
   "name": "phaser-requirejs-boilerplate",
+  "version": "1.0.0",
   "description": "Phaser + RequireJS Boilerplate",
-  "version": "0.9.0",
   "author": "Kevin Chan",
-  "licence": "",
-  "private": true,
+  "licence": "MIT",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/chessmasterhong/phaser-requirejs-boilerplate.git"
   },
-  "bugs": "",
+  "bugs": "https://github.com/chessmasterhong/phaser-requirejs-boilerplate/issues",
   "engines": {
     "node": "0.10.x",
     "npm": "1.4.x"
@@ -23,6 +22,5 @@
     "gulp-processhtml": "0.0.4",
     "requirejs": "^2.1.14",
     "rimraf": "^2.2.8"
-  },
-  "scripts": {}
+  }
 }
