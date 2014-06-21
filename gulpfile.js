@@ -12,6 +12,7 @@ var PORT = 8080,
 
 var gulp = require('gulp'),
     connect = require('gulp-connect'),
+    imagemin = require('gulp-imagemin'),
     jshint = require('gulp-jshint'),
     prochtml = require('gulp-processhtml'),
     requirejs = require('requirejs'),
@@ -28,7 +29,7 @@ gulp.task('lint', function() {
         .pipe(jshint.reporter('default'));
 });
 
-gulp.task('requirejs', ['lint'], function() {
+gulp.task('scripts', ['lint'], function() {
     requirejs.optimize({
         baseUrl: PATHS.source + PATHS.scripts,
         out: PATHS.build + PATHS.scripts + 'game.min.js',
@@ -50,6 +51,7 @@ gulp.task('requirejs', ['lint'], function() {
 
 gulp.task('media', function() {
     gulp.src(PATHS.source + PATHS.media + '**/*')
+        .pipe(imagemin())
         .pipe(gulp.dest(PATHS.build + PATHS.media));
 });
 
@@ -86,5 +88,5 @@ gulp.task('watch', function() {
 
 gulp.task('default', ['connect', 'watch']);
 gulp.task('build', ['clean'], function() {
-    gulp.start('requirejs', 'media', 'html', 'styles');
+    gulp.start('scripts', 'media', 'html', 'styles');
 });
