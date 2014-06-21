@@ -33,19 +33,51 @@ npm install && node node_modules/bower/bin/bower install
 
 ### Development
 
-Project development takes place in the `src/` directory. Run `build-dev.bat` to
-start a web server, serve the contents in the `src/` directory. Any
-modifications within the directory will refresh any browsers currently viewing
-the web page.
+Project development takes place in the `src/` directory. Run `build-dev.bat` or
+type the command `gulp` to start a web server, serve the contents in the `src/`
+directory. Any modifications within the directory will refresh any browsers
+currently viewing the web page.
 
 ### Build / Distribution
 
 Building the project from source creates a new `build/` directory where the
 output files are placed. This directory will be recreated for each new build, so
-don't put anything you care about in there. Run `build-dist.bat` to build the
-project from source. If the build seems to freeze during the `scripts` task, do
-not interrupt it; it is still performing its operations. Only do so when you see
-`End of build.` printed.
+do not put anything you care about in there. Run `build-dist.bat` or type the
+command `gulp build` to build the project from source.
+
+For users running from the script files: If the build seems to freeze during the
+`scripts` task, do not interrupt it; it is still performing its operations. Only
+do so when you see `End of build.` printed.
+
+
+## Workflow
+
+```
+                 ┌──> connect ──┐
+gulp (default) ──┤              ├──> done
+                 └──> watch ────┘
+                       │ ^
+                       │ └────────────────────────────────────────┐
+                       │  ┌──> (scripts) ──> lint ──┐             │
+                       │  │                         │             │
+                       │  ├──> (media) ─────────────┤             │
+                       └──┤                         ├──> reload ──┘
+                          ├──> (html) ──────────────┤
+                          │                         │
+                          └──> (styles) ────────────┘
+```
+
+```
+                       ┌──> (scripts) ──> lint ──> concat/minify/uglify ──> output ──┐
+                       │                                                             │
+                       │              ┌──> (images) ──> minify ──┐                   │
+                       ├──> (media) ──┤                          ├──> output ────────┤
+gulp build ──> clean ──┤              └──> (non─images) ─────────┘                   ├──> done
+                       │                                                             │
+                       ├──> (html) ──> process ──> output ───────────────────────────┤
+                       │                                                             │
+                       └──> (styles) ──> output ─────────────────────────────────────┘
+```
 
 
 ## Project directory structure
