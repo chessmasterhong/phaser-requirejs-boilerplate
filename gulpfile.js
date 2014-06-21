@@ -1,15 +1,19 @@
 'use strict';
 
+// Gulp configuration
 var PORT = 8080,
     PATHS = {
+        // Base paths
         source: './src/',
         build: './build/',
 
+        // Subdirectories after base path where contents should be read from and written to
         media: 'media/',
         scripts: 'scripts/',
         styles: 'styles/',
     };
 
+// Load Gulp dependencies
 var gulp = require('gulp'),
     connect = require('gulp-connect'),
     imagemin = require('gulp-imagemin'),
@@ -18,17 +22,14 @@ var gulp = require('gulp'),
     requirejs = require('requirejs'),
     rimraf = require('rimraf');
 
-
-gulp.task('clean', function(cb) {
-    rimraf(PATHS.build, cb);
-});
-
+// Lint JavaScript files
 gulp.task('lint', function() {
     return gulp.src([PATHS.source + PATHS.scripts + '**/*.js', '!' + PATHS.source + PATHS.scripts + '{,bower_components,bower_components/**/*}'])
         .pipe(jshint('.jshintrc'))
         .pipe(jshint.reporter('default'));
 });
 
+// Concatenates, minifies, uglifies, and outputs JavaScript files to build directory
 gulp.task('scripts', ['lint'], function() {
     requirejs.optimize({
         baseUrl: PATHS.source + PATHS.scripts,
@@ -49,23 +50,28 @@ gulp.task('scripts', ['lint'], function() {
     });
 });
 
+// Copies media files to build directory
+// Image files (GIF, JPG, PNG, SVG) are minified; Non-media files are copied without modifications.
 gulp.task('media', function() {
-    gulp.src(PATHS.source + PATHS.media + '**/*')
+    return gulp.src(PATHS.source + PATHS.media + '**/*')
         .pipe(imagemin())
         .pipe(gulp.dest(PATHS.build + PATHS.media));
 });
 
+// Processes "special comments" in HTML files and outputs to build directory
 gulp.task('html', function() {
     return gulp.src(PATHS.source + 'index.html')
         .pipe(prochtml('index.html'))
         .pipe(gulp.dest(PATHS.build));
 });
 
+// Copies style sheet files to build directory
 gulp.task('styles', function() {
     return gulp.src(PATHS.source + PATHS.styles + '**/*.css')
         .pipe(gulp.dest(PATHS.build + PATHS.styles));
 });
 
+// Start web server with LiveReload enabled
 gulp.task('connect', function() {
     connect.server({
         root: PATHS.source,
@@ -75,18 +81,34 @@ gulp.task('connect', function() {
     });
 });
 
+// Watch source files and perform appropriate tasks and reload browser (if opened
+// and at web page) when modifications are detected
 gulp.task('watch', function() {
     gulp.watch(PATHS.source + 'index.html');
     gulp.watch(PATHS.source + PATHS.styles + '**/*.css');
     gulp.watch(PATHS.source + PATHS.scripts + '**/*.js', ['lint']);
     gulp.watch(PATHS.source + PATHS.media + '**/*');
-    gulp.watch([PATHS.source + 'index.html', PATHS.source + PATHS.styles + '**/*.css', PATHS.source + PATHS.scripts + '**/*.js'], function() {
+
+    gulp.watch([
+        PATHS.source + 'index.html',
+        PATHS.source + PATHS.styles + '**/*.css',
+        PATHS.source + PATHS.scripts + '**/*.js',
+        PATHS.source + PATHS.media + '**/*'
+    ], function() {
         gulp.src(PATHS.source + 'index.html')
             .pipe(connect.reload());
     });
 });
 
-gulp.task('default', ['connect', 'watch']);
+// Cleans (removes) build directory
+gulp.task('clean', function(cb) {
+    rimraf(PATHS.build, cb);
+});
+
+// Build from source
 gulp.task('build', ['clean'], function() {
     gulp.start('scripts', 'media', 'html', 'styles');
 });
+
+// Run source (default)
+gulp.task('default', ['connect', 'watch']);
