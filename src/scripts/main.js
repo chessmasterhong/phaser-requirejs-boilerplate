@@ -4,7 +4,10 @@ requirejs.config({
     baseUrl: './scripts',
     paths: {
         almond: '../scripts/bower_components/almond/almond',
-        phaser: '../scripts/bower_components/phaser/index'
+        phaser: '../scripts/bower_components/phaser/index',
+
+        game: 'game/states/game',
+        preloader: 'game/states/preloader'
     },
     shim: {
         phaser: { exports: 'Phaser' }
@@ -12,9 +15,7 @@ requirejs.config({
 });
 
 require([
-    'phaser',
-    'game/states/game',
-    'game/states/preloader'
+    'phaser', 'game', 'preloader'
 ], function(Phaser, game, preloader) {
     var phaserGame = new Phaser.Game(800, 600, Phaser.AUTO, 'gameContainer');
 
