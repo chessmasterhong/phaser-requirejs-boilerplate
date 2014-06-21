@@ -4,8 +4,10 @@ var PORT = 8080,
     PATHS = {
         source: './src/',
         build: './build/',
+
+        media: 'media/',
+        scripts: 'scripts/',
         styles: 'styles/',
-        scripts: 'scripts/'
     };
 
 var gulp = require('gulp'),
@@ -14,6 +16,7 @@ var gulp = require('gulp'),
     prochtml = require('gulp-processhtml'),
     requirejs = require('requirejs'),
     rimraf = require('rimraf');
+
 
 gulp.task('clean', function(cb) {
     rimraf(PATHS.build, cb);
@@ -25,7 +28,7 @@ gulp.task('lint', function() {
         .pipe(jshint.reporter('default'));
 });
 
-gulp.task('requirejs', ['clean', 'lint'], function() {
+gulp.task('requirejs', ['lint'], function() {
     requirejs.optimize({
         baseUrl: PATHS.source + PATHS.scripts,
         out: PATHS.build + PATHS.scripts + 'game.min.js',
@@ -43,6 +46,11 @@ gulp.task('requirejs', ['clean', 'lint'], function() {
         console.log(err);
         return 1;
     });
+});
+
+gulp.task('media', function() {
+    gulp.src(PATHS.source + PATHS.media + '**/*')
+        .pipe(gulp.dest(PATHS.build + PATHS.media));
 });
 
 gulp.task('html', function() {
@@ -69,6 +77,7 @@ gulp.task('watch', function() {
     gulp.watch(PATHS.source + 'index.html');
     gulp.watch(PATHS.source + PATHS.styles + '**/*.css');
     gulp.watch(PATHS.source + PATHS.scripts + '**/*.js', ['lint']);
+    gulp.watch(PATHS.source + PATHS.media + '**/*');
     gulp.watch([PATHS.source + 'index.html', PATHS.source + PATHS.styles + '**/*.css', PATHS.source + PATHS.scripts + '**/*.js'], function() {
         gulp.src(PATHS.source + 'index.html')
             .pipe(connect.reload());
@@ -77,5 +86,5 @@ gulp.task('watch', function() {
 
 gulp.task('default', ['connect', 'watch']);
 gulp.task('build', ['clean'], function() {
-    gulp.start('requirejs', 'html', 'styles');
+    gulp.start('requirejs', 'media', 'html', 'styles');
 });
