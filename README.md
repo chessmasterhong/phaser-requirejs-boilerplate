@@ -34,13 +34,15 @@ you want).
 ├── build/  ........................  Build output files
 ├── node_modules/  .................  Locally installed Node packages
 ├── src/  ..........................  Project source code
+│   ├── media/  ....................  Media files (images, sound, etc.)
 │   ├── scripts/  ..................  Scripts
-│   ├── styles/  ...................  Style sheets
-│   ├── game/  .....................  Game-specific code
 │   │   ├── bower_components/  .....  Installed Bower packages
-│   │   ├── states/ ................  Game states
-│   │   └── game.js  ...............  Entry file that creates game instance and pulls all other modules
-│   └── index.html  ................  Web server directory index page (page that contains the game)
+│   │   ├── game/  .................  Game-specific code
+│   │   │   ├── levels/  ...........  Game levels
+│   │   │   └── states/  ...........  Game states
+│   │   └── main.js  ...............  Entry file that creates game instance and pulls all other modules
+│   ├── styles/  ...................  Style sheets
+│   └── index.html  ................  Web page that contains the game
 ├── tasks/  ........................  Additional task resources to use during build
 │   ├── _end.js  ...................  Append file contents to build layer
 │   └── _start.js  .................  Prepend file contents to build layer
