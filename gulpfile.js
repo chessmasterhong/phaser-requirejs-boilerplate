@@ -29,11 +29,8 @@ gulp.task('requirejs', ['clean', 'lint'], function() {
     requirejs.optimize({
         baseUrl: PATHS.source + PATHS.scripts,
         out: PATHS.build + PATHS.scripts + 'game.min.js',
-        paths: {
-            almond: 'bower_components/almond/almond',
-            phaser: 'bower_components/phaser/index'
-        },
-        include: ['phaser', 'almond', 'game/game'],
+        mainConfigFile: PATHS.source + PATHS.scripts + 'main.js',
+        include: ['almond', 'main'],
         wrap: {
             startFile: './tasks/_start.js',
             endFile: './tasks/_end.js'

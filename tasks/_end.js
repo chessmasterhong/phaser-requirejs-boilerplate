@@ -1,4 +1,4 @@
-    // Ask almond to synchronously require the module value for 'game' here and
+    // Ask almond to synchronously require the module value for 'main' here and
     // return it as the value to use for the public API for the built file.
-    return require('game/game');
+    return require('main');
 }));

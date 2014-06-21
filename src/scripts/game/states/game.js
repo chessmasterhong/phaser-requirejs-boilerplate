@@ -4,7 +4,12 @@ define(function() {
     var Game = function() {};
 
     Game.prototype = {
-        create: function() {},
+        preload: function() {
+            this.load.image('img', 'media/tiles.png');
+        },
+        create: function() {
+            this.add.sprite(0, 0, 'img');
+        },
         update: function() {},
     };
 
