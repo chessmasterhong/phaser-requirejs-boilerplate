@@ -1,8 +1,11 @@
+# Phaser + RequireJS Boilerplate
+
 ## Installation
 
 ### Prerequisites
 
-* [Node.js](http://nodejs.org)
+* [Node.js](http://nodejs.org) with npm
+* An internet connection
 
 ### Setup environment
 
@@ -10,18 +13,14 @@ Clone the repository and navigate to the newly cloned repository root directory.
 
 ```
 git clone _____
-cd /path/to/repo
+cd phaser-requirejs-boilerplate
 ```
 
-In the same directory, install project dependencies.
+In the same directory, install the project dependencies.
 
 ```
 npm install && node node_modules/bower/bin/bower install
 ```
-
-*Either automated or manual setup will install the necessary dependencies (Node
-and Bower packages to `node_modules/` and `bower_components/`, respectively) in
-the project root directory.*
 
 
 ## Project directory structure
@@ -32,34 +31,26 @@ be automatically created when necessary (you can still create them yourself if
 you want).
 
 ```
-./
-├── bower_components/  .....  Installed Bower packages
-├── build/  ................  Minified build output files
-├── docs/  .................  Documentations
-│   ├── dev/  ..............  Developer documentations
-│   └── user/  .............  User documentations
-├── node_modules/  .........  Locally installed Node packages
-├── notes/  ................  Project/Personal notes
-│   └── resources.md  ......  Resources and links not worth cluttering the README
-├── site/  .................  Site-specific contents
-│   ├── scripts/  ..........  Site-specific scripts (non-project related)
-│   ├── styles/  ...........  Style sheets
-│   ├── index.html  ........  Main page for loading files from distribution build
-│   └── index-dev.html  ....  Main page for loading files from development build
-├── src/  ..................  Project source code; this is where most of the development occurs
-│   ├── game/  .............  Project-specific code
-│   ├── _end.js  ...........  Append file contents to build layer
-│   ├── _start.js  .........  Prepend file contents to build layer
-│   └── game.js  ...........  Entry file that creates game instance and pulls all other modules
-├── bower.json  ............  Project metadata (Bower) and distribution build dependencies
-├── build-dev.bat  .........  Script file (Windows) to build project for development
-├── build-dist.bat  ........  Script file (Windows) to build project for distribution
-├── gulpfile.js  ...........  Gulp tasks
-├── package.json  ..........  Project metadata (npm) and development build dependencies
-└── README.md  .............  This file?
+├── build/  ........................  Build output files
+├── node_modules/  .................  Locally installed Node packages
+├── src/  ..........................  Project source code
+│   ├── scripts/  ..................  Scripts
+│   ├── styles/  ...................  Style sheets
+│   ├── game/  .....................  Game-specific code
+│   │   ├── bower_components/  .....  Installed Bower packages
+│   │   ├── states/ ................  Game states
+│   │   └── game.js  ...............  Entry file that creates game instance and pulls all other modules
+│   └── index.html  ................  Web server directory index page (page that contains the game)
+├── tasks/  ........................  Additional task resources to use during build
+│   ├── _end.js  ...................  Append file contents to build layer
+│   └── _start.js  .................  Prepend file contents to build layer
+├── .bowerrc  ......................  Bower configuration (tells Bower where to install Bower packages)
+├── .jshintrc  .....................  JSHint configuration (linting configuration)
+├── bower.json  ....................  Project metadata (Bower) and build dependencies
+├── build-dev.bat  .................  Script file (Windows) for development
+├── build-dist.bat  ................  Script file (Windows) to build project
+├── gulpfile.js  ...................  Gulp tasks
+├── package.json  ..................  Project metadata (npm) and development dependencies
+└── README.md  .....................  This file
 ```
 
-
-## Additional notes
-
-[Resources](notes/resources.md)
