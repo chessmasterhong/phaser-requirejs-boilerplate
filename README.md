@@ -1,5 +1,8 @@
 # Phaser + RequireJS Boilerplate
 
+A boilerplate and build system for [Phaser](http://phaser.io).
+
+
 ## Installation
 
 ### Prerequisites
@@ -21,6 +24,16 @@ In the same directory, install the project dependencies.
 ```
 npm install && node node_modules/bower/bin/bower install
 ```
+
+
+## Usage
+
+Project development takes place in the `src/` directory. Run `build-dev.bat` to
+run the project from source.
+
+Building the project from source creates a new `build/` directory where the
+output files are placed. This directory will be recreated for each new build, so
+don't put anything you care about in there.
 
 
 ## Project directory structure
@@ -55,4 +68,12 @@ you want).
 ├── package.json  ..................  Project metadata (npm) and development dependencies
 └── README.md  .....................  This file
 ```
+
+
+## Based on
+
+* [Require.js Library Skeleton](https://github.com/sahat/requirejs-library)
+* [Phaser-RequireJS](https://github.com/photonstorm/phaser/tree/master/resources/Project%20Templates/RequireJS)
+* [generator-phaser](https://github.com/julien/generator-phaser)
+* [Phaser JS Boilerplate](https://github.com/luizbills/phaser-boilerplate)
 
