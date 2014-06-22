@@ -11,10 +11,14 @@ var PORT = 8080,
         media: 'media/',
         scripts: 'scripts/',
         styles: 'styles/',
+
+        // Path to header file to concatenate with minified script output file
+        header: './tasks/header.js'
     };
 
 // Load Gulp dependencies
 var gulp = require('gulp'),
+    concat = require('gulp-concat'),
     connect = require('gulp-connect'),
     imagemin = require('gulp-imagemin'),
     jshint = require('gulp-jshint'),
@@ -43,7 +47,9 @@ gulp.task('scripts', ['lint'], function() {
         optimize: 'uglify2',
         preserveLicenseComments: false
     }, function() {
-        return 0;
+        return gulp.src([PATHS.header, PATHS.build + PATHS.scripts + 'game.min.js'])
+            .pipe(concat('game.min.js'))
+            .pipe(gulp.dest(PATHS.build + PATHS.scripts));
     }, function(err) {
         console.log(err);
         return 1;
