@@ -1,6 +1,8 @@
 # Phaser + RequireJS Boilerplate
 
-A boilerplate and build system for [Phaser](http://phaser.io).
+A boilerplate and build system for [Phaser](http://phaser.io) using
+[RequireJS](http://requirejs.org) for module loading and dependency management,
+and [Gulp.js](http://gulpjs.com) for task automation.
 
 
 ## Installation
@@ -8,6 +10,13 @@ A boilerplate and build system for [Phaser](http://phaser.io).
 ### Prerequisites
 
 * [Node.js](http://nodejs.org) with npm
+
+* [Gulp.js](http://gulpjs.com) installed globally
+
+    ```
+    npm install -g gulp
+    ```
+
 * An internet connection
 
 ### Setup environment
@@ -16,15 +25,15 @@ A boilerplate and build system for [Phaser](http://phaser.io).
 
 2. Navigate into your local copy of the repository's root directory.
 
-```
-cd phaser-requirejs-boilerplate
-```
+    ```
+    cd phaser-requirejs-boilerplate
+    ```
 
 3. Install the project dependencies.
 
-```
-npm install && node node_modules/bower/bin/bower install
-```
+    ```
+    npm install && node node_modules/bower/bin/bower install
+    ```
 
 4. Done!
 
@@ -33,24 +42,26 @@ npm install && node node_modules/bower/bin/bower install
 
 ### Development
 
-Project development takes place in the `src/` directory. Run `build-dev.bat` or
-type the command `gulp` to start a web server, serve the contents in the `src/`
-directory. Any modifications within the directory will refresh any browsers
-currently viewing the web page.
+Project development takes place mostly in the `src/` directory. Type the command
+`gulp` while in the project's root directory to start a web server and serve the
+contents in the `src/` directory. Any modifications within the directory will
+refresh any browsers currently viewing the web page.
 
 ### Build / Distribution
 
 Building the project from source creates a new `build/` directory where the
-output files are placed. This directory will be recreated for each new build, so
-do not put anything you care about in there. Run `build-dist.bat` or type the
-command `gulp build` to build the project from source.
+output files are placed. **This directory will be recreated for each new build,
+so do not put anything you care about in there.** Type the command `gulp build`
+while in the project's root directory to build the project from source.
 
-For users running from the script files: If the build seems to freeze during the
-`scripts` task, do not interrupt it; it is still performing its operations. Only
-do so when you see `End of build.` printed.
+Note: If the build seems to freeze during the `scripts` task, do not interrupt
+it; it is still performing its operations. This may take a while depending on
+the total amount of JavaScript code in your project.
 
 
 ## Workflow
+
+### Development
 
 ```
                  ┌──> connect ──┐
@@ -67,16 +78,18 @@ gulp (default) ──┤              ├──> done
                           └──> (styles) ────────────┘
 ```
 
+### Build / Distribution
+
 ```
-                       ┌──> (scripts) ──> lint ──> concat/minify/uglify ──> output ──┐
-                       │                                                             │
-                       │              ┌──> (images) ──> minify ──┐                   │
-                       ├──> (media) ──┤                          ├──> output ────────┤
-gulp build ──> clean ──┤              └──> (non─images) ─────────┘                   ├──> done
-                       │                                                             │
-                       ├──> (html) ──> process ──> output ───────────────────────────┤
-                       │                                                             │
-                       └──> (styles) ──> output ─────────────────────────────────────┘
+                       ┌──> (scripts) ──> lint ──> concat/minify/uglify ──> header ──> output ──┐
+                       │                                                                        │
+                       │              ┌──> (images) ──> minify ──┐                              │
+                       ├──> (media) ──┤                          ├──> output ───────────────────┤
+gulp build ──> clean ──┤              └──> (non─images) ─────────┘                              ├──> done
+                       │                                                                        │
+                       ├──> (html) ──> process ──> output ──────────────────────────────────────┤
+                       │                                                                        │
+                       └──> (styles) ──> output ────────────────────────────────────────────────┘
 ```
 
 
@@ -88,6 +101,7 @@ be automatically created when necessary (you can still create them yourself if
 you want).
 
 ```
+./
 ├── build/  ........................  Build output files
 ├── node_modules/  .................  Locally installed Node packages
 ├── src/  ..........................  Project source code
@@ -106,8 +120,6 @@ you want).
 ├── .bowerrc  ......................  Bower configuration (tells Bower where to install Bower packages)
 ├── .jshintrc  .....................  JSHint configuration (linting configuration)
 ├── bower.json  ....................  Project metadata (Bower) and build dependencies
-├── build-dev.bat  .................  Script file (Windows) for development
-├── build-dist.bat  ................  Script file (Windows) to build project
 ├── gulpfile.js  ...................  Gulp tasks
 ├── package.json  ..................  Project metadata (npm) and development dependencies
 └── README.md  .....................  This file
