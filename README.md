@@ -115,14 +115,16 @@ you want).
 │   ├── styles/  ...................  Style sheets
 │   └── index.html  ................  Web page that contains the game
 ├── tasks/  ........................  Additional task resources to use during build
-│   ├── _end.js  ...................  Append file contents to build layer
-│   └── _start.js  .................  Prepend file contents to build layer
+│   ├── _end.js  ...................  Append file contents to build layer (will be minified)
+│   ├── _start.js  .................  Prepend file contents to build layer (will be minified)
+│   └── header.js  .................  Prepend file contents to completed script output file (will not be minified)
 ├── .bowerrc  ......................  Bower configuration (tells Bower where to install Bower packages)
 ├── .jshintrc  .....................  JSHint configuration (linting configuration)
 ├── bower.json  ....................  Project metadata (Bower) and build dependencies
 ├── gulpfile.js  ...................  Gulp tasks
+├── LICENCE  .......................  Repository licence file
 ├── package.json  ..................  Project metadata (npm) and development dependencies
-└── README.md  .....................  This file
+└── README.md  .....................  Repository readme file (this file)
 ```
 
 
@@ -132,4 +134,9 @@ you want).
 * [Phaser-RequireJS](https://github.com/photonstorm/phaser/tree/master/resources/Project%20Templates/RequireJS)
 * [generator-phaser](https://github.com/julien/generator-phaser)
 * [Phaser JS Boilerplate](https://github.com/luizbills/phaser-boilerplate)
+
+
+## Licence
+
+Released under the [MIT Licence](LICENCE).
 

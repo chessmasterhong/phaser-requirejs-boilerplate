@@ -16,7 +16,7 @@ var PORT = 8080,
         header: './tasks/header.js'
     };
 
-// Load Gulp dependencies
+// Load Gulp task dependencies
 var gulp = require('gulp'),
     concat = require('gulp-concat'),
     connect = require('gulp-connect'),
@@ -87,8 +87,8 @@ gulp.task('connect', function() {
     });
 });
 
-// Watch source files and perform appropriate tasks and reload browser (if opened
-// and at web page) when modifications are detected
+// Watch source files and perform appropriate tasks and reload browser when
+// modifications are detected (if opened and at web page)
 gulp.task('watch', function() {
     gulp.watch(PATHS.source + 'index.html');
     gulp.watch(PATHS.source + PATHS.styles + '**/*.css');
@@ -116,5 +116,5 @@ gulp.task('build', ['clean'], function() {
     gulp.start('scripts', 'media', 'html', 'styles');
 });
 
-// Run source (default)
+// Serve and run source (default)
 gulp.task('default', ['connect', 'watch']);
