@@ -19,12 +19,12 @@ var PORT = 8080,
 // Load Gulp task dependencies
 var gulp = require('gulp'),
     concat = require('gulp-concat'),
-    connect = require('gulp-connect'),
     imagemin = require('gulp-imagemin'),
     jshint = require('gulp-jshint'),
     prochtml = require('gulp-processhtml'),
     requirejs = require('requirejs'),
-    rimraf = require('rimraf');
+    rimraf = require('rimraf'),
+    webserver = require('gulp-webserver');
 
 // Lint JavaScript files
 gulp.task('lint', function() {
@@ -78,13 +78,13 @@ gulp.task('styles', function() {
 });
 
 // Start web server with LiveReload enabled
-gulp.task('connect', function() {
-    connect.server({
-        root: PATHS.source,
-        host: '127.0.0.1',
-        port: PORT,
-        livereload: true
-    });
+gulp.task('webserver', function() {
+    gulp.src(PATHS.source)
+        .pipe(webserver({
+            host: '127.0.0.1',
+            port: PORT,
+            livereload: true
+        }));
 });
 
 // Watch source files and perform appropriate tasks and reload browser when
@@ -94,16 +94,6 @@ gulp.task('watch', function() {
     gulp.watch(PATHS.source + PATHS.styles + '**/*.css');
     gulp.watch(PATHS.source + PATHS.scripts + '**/*.js', ['lint']);
     gulp.watch(PATHS.source + PATHS.media + '**/*');
-
-    gulp.watch([
-        PATHS.source + 'index.html',
-        PATHS.source + PATHS.styles + '**/*.css',
-        PATHS.source + PATHS.scripts + '**/*.js',
-        PATHS.source + PATHS.media + '**/*'
-    ], function() {
-        gulp.src(PATHS.source + 'index.html')
-            .pipe(connect.reload());
-    });
 });
 
 // Cleans (removes) build directory
@@ -117,4 +107,4 @@ gulp.task('build', ['clean'], function() {
 });
 
 // Serve and run source (default)
-gulp.task('default', ['connect', 'watch']);
+gulp.task('default', ['webserver', 'watch']);
