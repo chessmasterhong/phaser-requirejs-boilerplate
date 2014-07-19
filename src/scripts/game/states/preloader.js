@@ -10,7 +10,7 @@ define(function() {
         preload: function() {
             this.load.onLoadComplete.addOnce(this.onLoadComplete, this);
 
-            this.load.image('img', 'media/tilesets/tiles.png');
+            this.load.image('img', 'media/tilesets/Phaser-Logo-Small.png');
         },
 
         create: function() {},
